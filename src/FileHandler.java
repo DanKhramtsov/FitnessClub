@@ -9,8 +9,8 @@ public class FileHandler {
         LinkedList<Member> members = new LinkedList<>();
 
         try {
-            File file = new File( path);
-            FileReader fileReader = new FileReader( file);
+            File file = new File(path);
+            FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             String line = bufferedReader.readLine();
@@ -22,12 +22,14 @@ public class FileHandler {
                 members.add(new Member((p[0].charAt(0)), Integer.parseInt(p[1]), p[2], Double.parseDouble(p[3])));
             }
 
+            fileReader.close();
+            bufferedReader.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("Error! File not found");
+            System.out.println("Файл не найден");
             throw new RuntimeException(e);
         } catch (IOException e) {
-            System.out.println("Reading error!");
+            System.out.println("Ошибка чтения");
             throw new RuntimeException(e);
         }
 
@@ -49,7 +51,8 @@ public class FileHandler {
 
     public static void overwriteFile(LinkedList<Member> m) {
 
-        File fileTemp = new File("src/dataBase/members.temp");
+        File fileTemp = new File("src/dataBase/", "members.temp");
+        File fileForDel = new File("src/dataBase/", "members.csv");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileTemp))) {
             for (Member mem : m) {
@@ -62,18 +65,16 @@ public class FileHandler {
             e.printStackTrace();
         }
 
-        File fileForDel = new File("src/dataBase/members.csv");
-
         if (fileForDel.exists() && fileForDel.canWrite()) { // Проверить, что файл существует и можно в него писать
             boolean deleted = fileForDel.delete();    // Возвращает true, если файл был успешно удалён
             if (!deleted) {
-                System.err.println("Failed to delete file");
+                System.err.println("Не удалось удалить файл");
             }
         }
 
         boolean renamed = fileTemp.renameTo(fileForDel);
         if (!renamed) {
-            System.err.println("Failed to rename file");
+            System.err.println("Не удалось переименовать файл");
         }
     }
 

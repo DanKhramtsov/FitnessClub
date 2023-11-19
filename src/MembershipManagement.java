@@ -7,14 +7,17 @@ public class MembershipManagement {
 
     public static int getIntInput() {
 
-        System.out.println("Введите цифру");
 
-        //  while (!reader.hasNextLine()) {
-        //   System.out.println("Введено не число, попробуйте еще раз");
-        // reader.next();
-        // }
-        int num = reader.nextInt();
-        reader.nextLine();
+        int num = 0;
+        do {
+            System.out.println("Выберите вариант: ");
+            while (!reader.hasNextInt()) {
+                String input = reader.next();
+                System.out.println("\"" + input + "\"" + " не является числом. Пожалуйста, введите число: ");
+            }
+
+            num = reader.nextInt();
+        } while (num == 0);
         return num;
     }
 
@@ -65,6 +68,7 @@ public class MembershipManagement {
             memberType = 'M';
         }
 
+        reader.nextLine();
         System.out.println("Введите имя пользователя"); // Записываем имя
         name = reader.nextLine();
 
@@ -115,7 +119,7 @@ public class MembershipManagement {
         } catch (Exception e) {
             System.out.println("Пользователь не найден");
         }
-        FileHandler.overwriteFile(m);
+        // FileHandler.overwriteFile(m);
     }
 
 
@@ -125,11 +129,14 @@ public class MembershipManagement {
 
         System.out.println("Введите ID пользователя");
 
+        Member temp = new Member('0', 0, null, 00);
+
         try {
             memberId = getIntInput();
-            m.get(memberId).toString();
+            temp = m.get(memberId);
+            System.out.println(temp.toString() + "\n");
         } catch (Exception e) {
-            System.out.println("Пользователь не найден");
+            System.out.println("Пользователь не найден\n");
         }
 
     }

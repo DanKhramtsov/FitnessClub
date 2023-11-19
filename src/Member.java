@@ -46,7 +46,7 @@ public class Member {
 
     @Override
     public String toString() {
-        return (getMemberType() + getMemberID() + getName() + getFees());
+        return ("Тип:" + getMemberType() + " ID:" + getMemberID() + " Имя:" + getName() + " Взнос:" + getFees());
     }
 
 }
